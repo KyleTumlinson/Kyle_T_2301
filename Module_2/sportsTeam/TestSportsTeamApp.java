@@ -12,7 +12,7 @@ public class TestSportsTeamApp {
         String players;
         String cont; // string for if the user wants to continue
         System.out.println("  Welcome to the Sports Team App");
-        // always want to have the menu at least once
+        // make sure that the menu pops up at least once with a do while loop
         do{
             players = new String("");
             // get the team name and make a new team with it
@@ -55,24 +55,25 @@ public class TestSportsTeamApp {
                 }
                 System.out.print("  " + players);
             }
-            
+            // check if user wants to continue AFTER verifying that the input is either y or n
             System.out.print("\n  Continue? (y/n)");
+            // check the users input with the checkValidInput function passing in the line from continue and the scanner
             cont = checkValidInput(scanner.nextLine(), scanner);
             
         } while(cont.toLowerCase().equals("y"));
+        // when the user is done exit the program and close the scanner
         System.out.println("  End of line...");
         scanner.close();
     }
 
+    // this function will check if the user input y or n in the continue input
     static String checkValidInput(String cont, Scanner scanner)
     {
-        if(!cont.toLowerCase().equals("y") && !cont.toLowerCase().equals("n")) // make sure the input is in the parameters
+        // if the user input is not a y or a n loop until they put in a y or a n
+        while(!cont.toLowerCase().equals("y") && !cont.toLowerCase().equals("n"))
         {
-            do
-            {
-                System.out.print("\n  Invalid input Continue? (y/n): ");
-                cont = scanner.nextLine();
-            }while(!cont.toLowerCase().equals("y") && !cont.toLowerCase().equals("y"));
+            System.out.print("\n  Invalid input Continue? (y/n): ");
+            cont = scanner.nextLine();
         }
         return cont;
     }
