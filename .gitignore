@@ -7,7 +7,7 @@
 *.log
 /target/
 hs_err_pid*
-.prokect
+.project
 .classpath
 .impl
 /code_standards.pdf
