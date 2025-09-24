@@ -54,6 +54,7 @@ public class Account {
     {
         switch(transactionOption)
         {
+            // handle deposit
             case "D":
             {
                 System.out.print("  Enter deposit amount: ");
@@ -69,6 +70,7 @@ public class Account {
                 }
                 break;
             }
+            // handle withdraw
             case "W":
             {
                 System.out.print("  Enter withdraw amount: ");
@@ -84,11 +86,13 @@ public class Account {
                 }
                 break;
             }
+            // handle balance
             case "B":
             {
                 System.out.printf("  Account balance: $%,6.2f\n", getBalance());
                 break;
             }
+            // default(error)
             default:
             {
                 System.out.println("  Error: Invalid Option");

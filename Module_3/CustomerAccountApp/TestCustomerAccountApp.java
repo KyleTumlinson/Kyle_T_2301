@@ -43,6 +43,9 @@ public class TestCustomerAccountApp {
         balance = testAccount.getBalance(); // get the balance of the account
         System.out.printf("\n  Balance as of %s is $%,6.2f", testAccount.getTransactionDate(), balance); // output the balance in the given format
         System.out.println("\n  End of line...");
+
+        // always close scanners
+        scanner.close();
     }
 
     public static boolean checkContinue(Scanner scanner)
