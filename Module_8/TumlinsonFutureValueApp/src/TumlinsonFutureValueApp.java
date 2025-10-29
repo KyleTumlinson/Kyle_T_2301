@@ -1,6 +1,10 @@
 /*Liang, Y.D. (2019).  Introduction to Java Programming and Data Structures: 
 Comprehensive Version (12th ed.).  Pearson Education, Inc. */
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.IllegalFormatConversionException;
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,12 +27,13 @@ public class TumlinsonFutureValueApp extends Application
     // create the controls and their labels
     private TextField txtMonthlyPayment = new TextField();
     private TextField txtInterestRate = new TextField();
-    private TextArea calculatedPayments = new TextArea();
+    private TextArea txtcalculatedPayments = new TextArea();
     private ComboBox<Integer> yearComboBox = new ComboBox<>();
     private Label lblMonthlyPayment = new Label("Monthly Payment:");
     private Label lblInterestRate = new Label("Interest Rate:");
     private Label lblExample = new Label("Enter11.1% as 11.1");
     private Label lblYears = new Label("Years:");
+    private Label lblFutureValueDate = new Label();
     private Button btnCalculate = new Button("Calculate");
     private Button btnClear = new Button("Clear");
     
@@ -38,6 +43,11 @@ public class TumlinsonFutureValueApp extends Application
         // create the options for the combobox and set them to its items
         ObservableList<Integer> options = FXCollections.observableArrayList(1, 2, 3, 4, 5);
         yearComboBox.setItems(options);
+        lblFutureValueDate.setText(setTodaysDate());
+
+        // bind the functions to the buttons that should call them
+        btnCalculate.setOnAction(e->calculateResults());
+        btnClear.setOnAction(e->clearFormFields());
         
         // force the combobox to take up the highest amount of space it can, otherwise it only takes up 1 column
         yearComboBox.setMaxWidth(Double.MAX_VALUE);
@@ -61,16 +71,17 @@ public class TumlinsonFutureValueApp extends Application
         // make adjustments to the label and its alignment on the gridpane
         lblExample.setTextFill(Color.RED);
         GridPane.setHalignment(lblExample, HPos.RIGHT);
-
+        
         // add an HBox for the buttons
         HBox actionBtnContainer = new HBox();
         actionBtnContainer.setPadding(new Insets(15,0,15,30));
         actionBtnContainer.setSpacing(10);
         actionBtnContainer.getChildren().addAll(btnClear,btnCalculate);
-        
+
         // add the HBox to the gridPane
         gp.add(actionBtnContainer, 1,4);
-        gp.add(calculatedPayments, 0,5, 2,1);
+        gp.add(lblFutureValueDate, 0,5, 2, 1);
+        gp.add(txtcalculatedPayments, 0,6, 2,1);
 
         // create the scene and add to the stage, using the gridpane as the root
         Scene scene = new Scene(gp, 300, 400);
@@ -81,5 +92,46 @@ public class TumlinsonFutureValueApp extends Application
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    // clear all fields in the form
+    private void clearFormFields()
+    {
+        txtMonthlyPayment.setText("");
+        txtInterestRate.setText("");
+        txtcalculatedPayments.setText("");
+        yearComboBox.setValue(null);
+        lblFutureValueDate.setText(setTodaysDate());
+    }
+
+    // calculate the results from calculateFutureValue and set the text for calculatedPayaments
+    private void calculateResults()
+    {
+        try
+        {
+            String mnthtxt = txtMonthlyPayment.getText();
+            double mnthPay = Double.parseDouble(mnthtxt);
+            String inttxt = txtInterestRate.getText();
+            double intRate = Double.parseDouble(inttxt);
+            Integer years = yearComboBox.getValue();
+            System.out.println();
+            txtcalculatedPayments.setText(String.format("The future value is  $%,6.2f", FinanceCalculator.calculateFutureValue(mnthPay, intRate, years)));
+        }
+        catch (NumberFormatException e)
+        {
+            txtcalculatedPayments.setText("Invalid input.");
+        }
+        catch (IllegalFormatConversionException e)
+        {
+            txtcalculatedPayments.setText("Invalid input.");
+        }
+    }
+
+    private String setTodaysDate()
+    {
+        LocalDate todaysDate = LocalDate.now();
+        DateTimeFormatter todaysDateFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String todayString = todaysDate.format(todaysDateFormat);
+        return String.format("Calculation as of %s", todayString);
     }
 }
