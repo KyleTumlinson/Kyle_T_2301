@@ -1,3 +1,10 @@
+/*Liang, Y.D. (2019).  Introduction to Java Programming and Data Structures: 
+Comprehensive Version (12th ed.).  Pearson Education, Inc. */
+
+/*TextArea (JavaFX 8). (2025, October 20).
+https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/TextArea.html
+*/
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
